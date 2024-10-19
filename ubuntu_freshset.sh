@@ -1,4 +1,3 @@
-bash_script_content = """
 #!/bin/bash
 
 # Extend ZRAM and Swap Space
@@ -17,7 +16,8 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 
 sudo apt update
 sudo apt install zsh -y
-# chsh -s $(which zsh)  (uncomment if you want to make zsh default)
+# Uncomment the next line if you want to make zsh the default shell
+# chsh -s $(which zsh)
 
 # KVM/QEMU Installation and Setup
 
@@ -25,7 +25,6 @@ echo "Installing KVM/QEMU and setting up virtual machine directories..."
 sudo apt update
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
 sudo usermod -aG libvirt,kvm $(whoami)
-
 
 # Moving KVM storage to another disk
 
@@ -59,10 +58,7 @@ flatpak run com.visualstudio.code --install-extension eamodio.gitlens
 
 # Removing unnecessary background applications (GNOME Editions)
 
-
-ps aux | grep evolution
-#Check if evolution is there, it is using too much ram on background, for me it is useless.
-
+echo "Stopping and disabling Evolution services..."
 systemctl --user stop evolution-addressbook-factory.service
 systemctl --user stop evolution-calendar-factory.service
 systemctl --user stop evolution-source-registry.service
@@ -80,28 +76,24 @@ sudo apt autoremove -y
 sudo apt remove remmina -y
 
 # Remove Transmission (BitTorrent client)
-
 sudo apt remove transmission-gtk -y
 
 # Remove Downloaded Games
-
 sudo apt remove aisleriot gnome-mahjongg gnome-sudoku -y
 
 # Remove Thunderbird (Mail Client)
-
 sudo apt remove thunderbird -y
 
-#Remove Snap Store (I use mostly flatpak, you can stick to the snap)
+# Remove Snap Store
 sudo snap remove snap-store
 
-# Remove Amazon Web Launcher 
-sudo apt remove ubuntu-web-launchers
+# Remove Amazon Web Launcher
+sudo apt remove ubuntu-web-launchers -y
 
 # Steam Flatpak Installation
 
 echo "Installing Steam via Flatpak..."
 flatpak install flathub com.valvesoftware.Steam -y
-# Steam Library should be moved manually using Steam interface
 
 # Installing Software Development Tools (Flutter, Python, etc.)
 
@@ -116,12 +108,10 @@ sudo apt install openjdk-11-jdk -y
 echo "Installing Telegram via Flatpak..."
 flatpak install flathub org.telegram.desktop -y
 
-
 # Final Touch
-sudo apt autoremove
+sudo apt autoremove -y
 
 echo "Config completed."
-"""
 
 # Save the script to a file
 file_path = "/mnt/data/ubuntu_freshset.sh"
